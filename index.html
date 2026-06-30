@@ -1,0 +1,2207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蒋文涵 - 个人简历</title>
+    <link rel="icon" type="image/png" href="图标/649a49f06ea825be7575640ba48cad2a.png">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #c8ddf0;
+            --card-bg: rgba(255, 255, 255, 0.72);
+            --card-border: rgba(255, 255, 255, 0.9);
+            --primary: #3a7bd5;
+            --text-main: #2c3e50;
+            --text-sub: #5a6c7d;
+            --shadow: 0 8px 32px rgba(58, 123, 213, 0.12);
+            --radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 首页专用背景 */
+        .home-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('首页背景.png') center/cover no-repeat;
+            z-index: 0;
+        }
+
+        /* 其它页面背景 */
+        .page-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('背景.jpg') center/cover no-repeat;
+            z-index: 0;
+            opacity: 0.7;
+        }
+
+        /* 首页和关于我之间的模糊过渡 */
+        .bg-blur-transition {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(200,220,240,0.3) 40%, rgba(180,210,235,0.6) 70%, rgba(160,200,230,0.9) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .floating-shape {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.5;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            top: 15%;
+            left: 8%;
+            width: 40px;
+            height: 40px;
+            background: #a8d8ea;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            top: 60%;
+            left: 5%;
+            width: 30px;
+            height: 30px;
+            background: #aa96da;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation-delay: 1s;
+        }
+
+        .shape-3 {
+            top: 25%;
+            right: 10%;
+            width: 50px;
+            height: 50px;
+            background: #fcbad3;
+            border-radius: 50%;
+            animation-delay: 2s;
+        }
+
+        .shape-4 {
+            bottom: 20%;
+            right: 15%;
+            width: 35px;
+            height: 35px;
+            background: #a8d8ea;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation-delay: 1.5s;
+        }
+
+        .shape-5 {
+            top: 45%;
+            right: 5%;
+            width: 25px;
+            height: 25px;
+            background: #fcbad3;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation-delay: 0.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 80px);
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 12px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-50%) translateY(-30px);
+        }
+
+        .navbar.loaded {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+            color: var(--text-sub);
+            font-weight: 400;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-center svg {
+            width: 20px;
+            height: 20px;
+            color: #6ecbf5;
+        }
+
+        .nav-center-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-item {
+            padding: 8px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-sub);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+            background: rgba(58, 123, 213, 0.08);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            background: rgba(58, 123, 213, 0.12);
+        }
+
+        .nav-center-motto {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .download-btn:hover {
+            background: #2c65b8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(58, 123, 213, 0.3);
+        }
+
+        .download-btn img {
+            width: 16px;
+            height: 16px;
+            filter: brightness(0) invert(1);
+        }
+
+        /* 页面区域 */
+        .section {
+            min-height: 100vh;
+            padding: 120px 40px 60px;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-content {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .section-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+
+        /* 首页 */
+        #home {
+            justify-content: flex-start;
+            padding-top: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 100px 20px 40px;
+        }
+
+        .home-hello {
+            position: absolute;
+            top: 18%;
+            left: 8%;
+            border: 2px solid rgba(255, 215, 100, 0.7);
+            border-radius: 50%;
+            padding: 10px 28px;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 200, 80, 0.9);
+            letter-spacing: 2px;
+            transform: rotate(-8deg);
+            opacity: 0;
+            transform: rotate(-8deg) translateY(30px);
+            transition: all 0.8s ease 0.3s;
+        }
+
+        .home-hello.visible {
+            opacity: 1;
+            transform: rotate(-8deg) translateY(0);
+        }
+
+        .home-title {
+            text-align: center;
+            margin-top: 60px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease 0.5s;
+        }
+
+        .home-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .home-title-main {
+            font-size: 72px;
+            font-weight: 700;
+            color: rgba(255, 200, 60, 0.95);
+            letter-spacing: 4px;
+            line-height: 1.1;
+            text-shadow: 0 2px 20px rgba(255, 180, 0, 0.2);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .home-title-sub {
+            font-size: 28px;
+            font-weight: 300;
+            color: rgba(255, 200, 80, 0.85);
+            margin-top: 12px;
+            letter-spacing: 8px;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        .home-content-label {
+            border: 2px solid rgba(255, 215, 100, 0.7);
+            border-radius: 50%;
+            padding: 10px 28px;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 200, 80, 0.9);
+            letter-spacing: 2px;
+            margin: 40px 0 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease 0.9s;
+        }
+
+        .home-content-label.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .home-icons {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-end;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease 1.1s;
+        }
+
+        .home-icons.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .home-icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .home-icon-item:hover {
+            transform: translateY(-12px) scale(1.08);
+        }
+
+        .home-icon-item:hover .home-icon-img {
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
+        }
+
+        .home-icon-img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            transition: all 0.4s ease;
+            image-rendering: pixelated;
+        }
+
+        .home-icon-label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 首页装饰元素 */
+        .home-deco {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .home-deco-star1 {
+            top: 22%;
+            left: 5%;
+            width: 35px;
+            height: 35px;
+            background: #a8e6cf;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease 1.3s;
+        }
+
+        .home-deco-star1.visible {
+            opacity: 0.7;
+            transform: translateY(0);
+        }
+
+        .home-deco-triangle {
+            bottom: 25%;
+            left: 6%;
+            width: 28px;
+            height: 28px;
+            background: #dcedc1;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease 1.5s;
+        }
+
+        .home-deco-triangle.visible {
+            opacity: 0.6;
+            transform: translateY(0);
+        }
+
+        .home-deco-circle {
+            top: 18%;
+            right: 12%;
+            width: 45px;
+            height: 45px;
+            background: #ffd3e1;
+            border-radius: 50%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease 1.4s;
+        }
+
+        .home-deco-circle.visible {
+            opacity: 0.6;
+            transform: translateY(0);
+        }
+
+        .home-deco-star2 {
+            bottom: 30%;
+            right: 8%;
+            width: 25px;
+            height: 25px;
+            background: #a8d8ea;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease 1.6s;
+        }
+
+        .home-deco-star2.visible {
+            opacity: 0.6;
+            transform: translateY(0);
+        }
+
+        /* 关于我 */
+        .about-container {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 30px;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 40px rgba(58, 123, 213, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .window-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .window-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f57; }
+        .dot-yellow { background: #febc2e; }
+        .dot-green { background: #28c840; }
+
+        .window-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-sub);
+            margin-left: 8px;
+        }
+
+        .about-left {
+            text-align: center;
+        }
+
+        .avatar-wrapper {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-name {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .about-info {
+            font-size: 14px;
+            color: var(--text-sub);
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+
+        .about-quote {
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.8;
+            margin-bottom: 24px;
+            padding: 0 10px;
+        }
+
+        .about-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .about-tags {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .about-tag {
+            padding: 14px 10px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0,0,0,0.06);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .about-tag:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .about-tag-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .about-tag-desc {
+            font-size: 11px;
+            color: var(--text-sub);
+            line-height: 1.5;
+            display: block;
+        }
+
+        .about-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .about-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(0,0,0,0.08);
+            margin-left: 8px;
+        }
+
+        .edu-item {
+            margin-bottom: 20px;
+        }
+
+        .edu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .edu-school {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .edu-time {
+            font-size: 13px;
+            color: var(--text-sub);
+            background: rgba(58, 123, 213, 0.08);
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+
+        .edu-detail {
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.8;
+        }
+
+        .edu-detail li {
+            margin-left: 18px;
+            margin-bottom: 6px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .skill-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .skill-item img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover img {
+            filter: drop-shadow(0 4px 8px rgba(58, 123, 213, 0.2));
+        }
+
+        .skill-name {
+            font-size: 12px;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        /* 履历 */
+        .exp-container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .exp-header {
+            margin-bottom: 50px;
+            text-align: left;
+        }
+
+        .exp-title-cn {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 4px;
+            margin-bottom: 4px;
+        }
+
+        .exp-title-en {
+            font-size: 32px;
+            font-weight: 300;
+            color: var(--text-sub);
+            letter-spacing: 2px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(58, 123, 213, 0.2);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 30px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--bg-color);
+            box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.2);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .timeline-company {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .timeline-role {
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 500;
+            background: rgba(58, 123, 213, 0.08);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .timeline-time {
+            font-size: 13px;
+            color: var(--text-sub);
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timeline-time::before {
+            content: 'TIME';
+            font-size: 10px;
+            font-weight: 700;
+            color: white;
+            background: var(--text-main);
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        .timeline-desc {
+            font-size: 14px;
+            color: var(--text-sub);
+            line-height: 1.9;
+        }
+
+        .timeline-desc li {
+            margin-left: 18px;
+            margin-bottom: 8px;
+        }
+
+        /* 作品集 */
+        .portfolio-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .portfolio-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .portfolio-subtitle {
+            font-size: 16px;
+            color: var(--text-sub);
+        }
+
+        .portfolio-filters {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .portfolio-filter {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(58, 123, 213, 0.2);
+            background: var(--card-bg);
+            color: var(--text-sub);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .portfolio-filter:hover,
+        .portfolio-filter.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(58, 123, 213, 0.25);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(58, 123, 213, 0.2);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-item-info {
+            padding: 16px;
+        }
+
+        .portfolio-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .portfolio-item-category {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        /* 联系我 */
+        .contact-container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contact-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover .contact-icon {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(58, 123, 213, 0.2);
+        }
+
+        .contact-icon img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .contact-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .contact-value {
+            font-size: 15px;
+            color: var(--text-sub);
+        }
+
+        .thank-you {
+            font-size: 72px;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.2;
+            letter-spacing: -1px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .thank-you.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .thank-you-sub {
+            font-size: 48px;
+            font-weight: 300;
+            color: var(--text-sub);
+            margin-top: 8px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease 0.2s;
+        }
+
+        .thank-you-sub.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            user-select: none;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-img-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .lightbox img {
+            max-width: 85%;
+            max-height: 80%;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+            object-fit: contain;
+        }
+
+        .lightbox img.zoomed {
+            max-width: none;
+            max-height: none;
+            cursor: zoom-out;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 36px;
+            color: white;
+            cursor: pointer;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            z-index: 2001;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.25);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            border: 2px solid rgba(255,255,255,0.25);
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 2001;
+            backdrop-filter: blur(8px);
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 24px;
+        }
+
+        .lightbox-next {
+            right: 24px;
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            letter-spacing: 2px;
+            z-index: 2001;
+        }
+
+        .lightbox-hint {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.45);
+            font-size: 13px;
+            z-index: 2001;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .lightbox-hint.hidden {
+            opacity: 0;
+        }
+
+        .lightbox-zoom-controls {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            gap: 8px;
+            z-index: 2001;
+        }
+
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            border: 2px solid rgba(255,255,255,0.25);
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            user-select: none;
+        }
+
+        .zoom-btn:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.5);
+            transform: scale(1.1);
+        }
+
+        /* 动画 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            .navbar {
+                width: calc(100% - 30px);
+                padding: 10px 16px;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            .nav-center-links {
+                display: none !important;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+
+            .home-icons {
+                gap: 30px;
+            }
+
+            .home-icon-img {
+                width: 70px;
+                height: 70px;
+            }
+
+            .exp-title-cn {
+                font-size: 32px;
+            }
+
+            .exp-title-en {
+                font-size: 22px;
+            }
+
+            .thank-you {
+                font-size: 40px;
+            }
+
+            .thank-you-sub {
+                font-size: 28px;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .section {
+                padding: 100px 20px 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-tags {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                gap: 30px;
+            }
+
+            .home-title-main {
+                font-size: 42px;
+            }
+
+            .home-title-sub {
+                font-size: 20px;
+            }
+
+            .home-hello {
+                top: 14%;
+                left: 5%;
+                font-size: 13px;
+                padding: 6px 16px;
+            }
+
+            .home-icons {
+                gap: 20px;
+            }
+
+            .home-icon-img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .home-content-label {
+                font-size: 14px;
+                padding: 8px 20px;
+            }
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(58, 123, 213, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(58, 123, 213, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- 其它页面统一背景 -->
+    <div class="page-bg"></div>
+    <!-- 背景装饰 -->
+    <div class="bg-decoration"></div>
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+    <div class="floating-shape shape-4"></div>
+    <div class="floating-shape shape-5"></div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-left">
+            <img src="图标/网站图标.png" alt="logo" class="nav-logo">
+        </div>
+        <div class="nav-center" id="navCenter">
+            <div class="nav-center-motto" id="navMotto">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                enjoy every day
+            </div>
+            <div class="nav-center-links" id="navLinks" style="display: none;">
+                <button class="nav-item" onclick="scrollToSection('home')">首页</button>
+                <button class="nav-item" onclick="scrollToSection('about')">关于我</button>
+                <button class="nav-item" onclick="scrollToSection('experience')">履历</button>
+                <button class="nav-item" onclick="scrollToSection('portfolio')">作品集</button>
+                <button class="nav-item" onclick="scrollToSection('contact')">联系我</button>
+            </div>
+        </div>
+        <div class="nav-right">
+            <a href="蒋文涵+读者服务岗+一年以上相关经验+18158849813 (1).pdf" download class="download-btn">
+                <span>简历下载</span>
+                <img src="图标/下载图标.png" alt="download">
+            </a>
+        </div>
+    </nav>
+
+    <!-- 首页 -->
+    <section class="section" id="home">
+        <div class="home-bg"></div>
+        <div class="home-deco home-deco-star1" id="decoStar1"></div>
+        <div class="home-deco home-deco-triangle" id="decoTriangle"></div>
+        <div class="home-deco home-deco-circle" id="decoCircle"></div>
+        <div class="home-deco home-deco-star2" id="decoStar2"></div>
+        <div class="home-content">
+            <div class="home-hello" id="homeHello">HELLO</div>
+            <div class="home-title" id="homeTitle">
+                <div class="home-title-main">PERSONAL<br>RESUME</div>
+                <div class="home-title-sub">个人简历</div>
+            </div>
+            <div class="home-content-label" id="homeContent">CONTENT</div>
+            <div class="home-icons" id="homeIcons">
+                <a class="home-icon-item" onclick="scrollToSection('home')">
+                    <img src="图标/首页图标.png" alt="首页" class="home-icon-img">
+                    <span class="home-icon-label">首页</span>
+                </a>
+                <a class="home-icon-item" onclick="scrollToSection('about')">
+                    <img src="图标/关于我图标.png" alt="关于我" class="home-icon-img">
+                    <span class="home-icon-label">关于我</span>
+                </a>
+                <a class="home-icon-item" onclick="scrollToSection('experience')">
+                    <img src="图标/履历图标.png" alt="履历" class="home-icon-img">
+                    <span class="home-icon-label">履历</span>
+                </a>
+                <a class="home-icon-item" onclick="scrollToSection('portfolio')">
+                    <img src="图标/作品集图标.png" alt="作品集" class="home-icon-img">
+                    <span class="home-icon-label">作品集</span>
+                </a>
+                <a class="home-icon-item" onclick="scrollToSection('contact')">
+                    <img src="图标/联系我图标.png" alt="联系我" class="home-icon-img">
+                    <span class="home-icon-label">联系我</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section class="section" id="about">
+        <div class="bg-blur-transition"></div>
+        <div class="about-container section-content">
+            <div class="card about-left fade-in">
+                <div class="window-header">
+                    <div class="window-dots">
+                        <span class="window-dot dot-red"></span>
+                        <span class="window-dot dot-yellow"></span>
+                        <span class="window-dot dot-green"></span>
+                    </div>
+                    <span class="window-title">About me</span>
+                </div>
+                <div class="avatar-wrapper">
+                    <img src="关于我-头像.jpg" alt="蒋文涵">
+                </div>
+                <h2 class="about-name">蒋文涵</h2>
+                <p class="about-info">24岁 | 安徽合肥 | 共青团员</p>
+                <p class="about-quote">用清晰的视觉语言传递品牌故事<br>在实用与美感之间找到平衡点</p>
+                <div class="about-tags">
+                    <div class="about-tag">
+                        <span class="about-tag-title">视觉设计</span>
+                        <span class="about-tag-desc">PS AI Canva 剪映</span>
+                    </div>
+                    <div class="about-tag">
+                        <span class="about-tag-title">新媒体运营</span>
+                        <span class="about-tag-desc">矩阵搭建<br>内容策划<br>数据分析</span>
+                    </div>
+                    <div class="about-tag">
+                        <span class="about-tag-title">活动统筹</span>
+                        <span class="about-tag-desc">团队管理<br>项目执行<br>突发应急</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card about-right fade-in stagger-1">
+                <div class="window-header">
+                    <div class="window-dots">
+                        <span class="window-dot dot-red"></span>
+                        <span class="window-dot dot-yellow"></span>
+                        <span class="window-dot dot-green"></span>
+                    </div>
+                    <span class="window-title">About me</span>
+                </div>
+
+                <h3 class="about-section-title">教育背景 | Educational Background</h3>
+                <div class="edu-item">
+                    <div class="edu-header">
+                        <span class="edu-school">大连艺术学院 本科 电子商务专业（美工方向）</span>
+                        <span class="edu-time">2021.9 - 2025.7</span>
+                    </div>
+                    <ul class="edu-detail">
+                        <li>专业成绩：GPA 3.43（专业top20%）</li>
+                        <li>主修课程：网络营销与策划、UI设计基础、新媒体实战工具、商品摄影、电商直播、消费者行为、电子商务客户关系管理</li>
+                    </ul>
+                </div>
+
+                <h3 class="about-section-title" style="margin-top: 28px;">技能证书 | Skill Certificate</h3>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <img src="图标/Photoshop图标.png" alt="Photoshop">
+                        <span class="skill-name">Photoshop</span>
+                    </div>
+                    <div class="skill-item">
+                        <img src="图标/Illustrator图标.png" alt="Illustrator">
+                        <span class="skill-name">Illustrator</span>
+                    </div>
+                    <div class="skill-item">
+                        <img src="图标/剪映图标.png" alt="剪映">
+                        <span class="skill-name">剪映</span>
+                    </div>
+                    <div class="skill-item">
+                        <img src="图标/可画图标.png" alt="Canva">
+                        <span class="skill-name">Canva</span>
+                    </div>
+                    <div class="skill-item">
+                        <img src="图标/普通话图标.png" alt="普通话">
+                        <span class="skill-name">普通话二级甲等</span>
+                    </div>
+                    <div class="skill-item">
+                        <img src="图标/CET-46图标.png" alt="CET-4/6">
+                        <span class="skill-name">CET-4/6</span>
+                    </div>
+                    <div class="skill-item">
+                        <img src="图标/计算机二级图标.png" alt="计算机二级">
+                        <span class="skill-name">计算机二级(MS)</span>
+                    </div>
+                    <div class="skill-item">
+                        <img src="图标/驾驶证图标.png" alt="驾驶证">
+                        <span class="skill-name">C1驾驶证</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 履历 -->
+    <section class="section" id="experience">
+        <div class="exp-container section-content">
+            <div class="exp-header fade-in">
+                <div class="exp-title-cn">履历</div>
+                <div class="exp-title-en">Work Experience</div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">2025.04 - 2026.06</div>
+                    <div class="timeline-header">
+                        <span class="timeline-company">合肥市冬冬翡翠珠宝商贸有限公司</span>
+                        <span class="timeline-role">新媒体运营</span>
+                    </div>
+                    <ul class="timeline-desc">
+                        <li>内容策划与视频全流程制作：独立统筹抖音账号视频从脚本撰写到发布全流程。使用剪映、Seedance 2.0进行剪辑和创意特效，单条视频播放量破千，运营期间账号累计涨粉1000+。节日活动视频发布两周内线下店铺获客量达100+，实现内容与业务强关联。</li>
+                        <li>视觉设计与物料输出：强化品牌统一视觉风格，使用Canva、PS独立完成LOGO、产品海报、展架等物料设计，制作视频封面，有效提升视频传播效果与专业度。</li>
+                        <li>矩阵运营与统筹排期：为扩大内容覆盖维度，搭建3个矩阵账号并制定月度拍摄排期表，协调资源，每月稳定产出10+条视频，保障更新节奏，体现项目统筹与执行闭环能力。</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2023.07 - 2023.09</div>
+                    <div class="timeline-header">
+                        <span class="timeline-company">全国高校跨境电商就业创业直播大赛（全国三等奖）</span>
+                        <span class="timeline-role">团队负责人</span>
+                    </div>
+                    <ul class="timeline-desc">
+                        <li>统筹规划与团队管理：带领团队制定整体参赛方案与选品策略，统筹直播流程，协调3名成员分工协作，确保项目高效运转。</li>
+                        <li>突发事件应对：在多场直播活动中，成功处理5次突发状况，展现在高压环境下的冷静判断与应急处理能力。</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2022.03 - 2024.03</div>
+                    <div class="timeline-header">
+                        <span class="timeline-company">大连艺术学院图书馆</span>
+                        <span class="timeline-role">读者服务部学生助理</span>
+                    </div>
+                    <ul class="timeline-desc">
+                        <li>馆藏管理与秩序维护：负责图书上架、倒架、整架，严格遵循图书分类标准规整馆藏图书，维持书架有序，保障图书正常借阅流通。维护馆内安静阅览环境，及时劝导、制止各类不文明阅览行为。</li>
+                        <li>活动策划与物料制作：管理志愿者团队，策划组织"读书分享会"等大型活动，负责现场秩序维护与人员调度，提升了组织协调与现场管理能力。与其它部门合作参与活动横幅、宣传海报设计与制作，完成线下活动视觉物料创作工作。</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2021.09 - 2022.12</div>
+                    <div class="timeline-header">
+                        <span class="timeline-company">校学生会融媒体部门</span>
+                        <span class="timeline-role">新媒体干事</span>
+                    </div>
+                    <ul class="timeline-desc">
+                        <li>公众号图文排版设计：运用PS、秀米完成推文精细化排版，借助AI制作矢量配图，强化图文审美、版面统筹与素材创作能力。</li>
+                        <li>线下素材采集：负责线下活动现场实拍，储备推文配图素材，具备基础摄影与画面素材把控能力。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品集 -->
+    <section class="section" id="portfolio">
+        <div class="portfolio-container section-content">
+            <div class="portfolio-header fade-in">
+                <h2 class="portfolio-title">作品集</h2>
+                <p class="portfolio-subtitle">Portfolio</p>
+            </div>
+            <div class="portfolio-filters fade-in stagger-1">
+                <button class="portfolio-filter active" data-filter="all">全部</button>
+                <button class="portfolio-filter" data-filter="poster">海报设计</button>
+                <button class="portfolio-filter" data-filter="cover">封面设计</button>
+                <button class="portfolio-filter" data-filter="illustration">数字插画</button>
+                <button class="portfolio-filter" data-filter="layout">公众号排版</button>
+                <button class="portfolio-filter" data-filter="logo">LOGO设计</button>
+                <button class="portfolio-filter" data-filter="ecommerce">电商设计</button>
+            </div>
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- 海报设计 -->
+                <div class="portfolio-item" data-category="poster" onclick="openLightbox(this)">
+                    <img src="作品集/海报设计/白底青手镯海报.jpg" alt="白底青手镯海报">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">白底青手镯海报</div>
+                        <div class="portfolio-item-category">海报设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="poster" onclick="openLightbox(this)">
+                    <img src="作品集/海报设计/碧玉手镯海报.jpg" alt="碧玉手镯海报">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">碧玉手镯海报</div>
+                        <div class="portfolio-item-category">海报设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="poster" onclick="openLightbox(this)">
+                    <img src="作品集/海报设计/冰飘手镯海报.jpg" alt="冰飘手镯海报">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">冰飘手镯海报</div>
+                        <div class="portfolio-item-category">海报设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="poster" onclick="openLightbox(this)">
+                    <img src="作品集/海报设计/翡翠手镯海报.jpg" alt="翡翠手镯海报">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">翡翠手镯海报</div>
+                        <div class="portfolio-item-category">海报设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="poster" onclick="openLightbox(this)">
+                    <img src="作品集/海报设计/拼贴风海报.png" alt="拼贴风海报">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">拼贴风海报</div>
+                        <div class="portfolio-item-category">海报设计</div>
+                    </div>
+                </div>
+                <!-- 封面设计 -->
+                <div class="portfolio-item" data-category="cover" onclick="openLightbox(this)">
+                    <img src="作品集/封面设计/公众号封面/大连艺术学院学生会组织改革情况.jpg" alt="大连艺术学院学生会组织改革情况">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">大连艺术学院学生会组织改革情况</div>
+                        <div class="portfolio-item-category">封面设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="cover" onclick="openLightbox(this)">
+                    <img src="作品集/封面设计/公众号封面/冬日小确幸 ”万物皆可甜“暖心糖葫芦.jpg" alt="冬日小确幸">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">冬日小确幸</div>
+                        <div class="portfolio-item-category">封面设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="cover" onclick="openLightbox(this)">
+                    <img src="作品集/封面设计/视频封面/端午五彩绳视频封面.jpg" alt="端午五彩绳视频封面">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">端午五彩绳视频封面</div>
+                        <div class="portfolio-item-category">封面设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="cover" onclick="openLightbox(this)">
+                    <img src="作品集/封面设计/公众号封面/感动光波 发射!.jpg" alt="感动光波 发射!">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">感动光波 发射!</div>
+                        <div class="portfolio-item-category">封面设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="cover" onclick="openLightbox(this)">
+                    <img src="作品集/封面设计/公众号封面/合理规划，不负青春 金普新区青年发展规划座谈会.jpg" alt="合理规划，不负青春">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">合理规划，不负青春</div>
+                        <div class="portfolio-item-category">封面设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="cover" onclick="openLightbox(this)">
+                    <img src="作品集/封面设计/公众号封面/拍一拍国考生：”考试加油!好运莲莲!“.jpg" alt="拍一拍国考生">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">拍一拍国考生</div>
+                        <div class="portfolio-item-category">封面设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="cover" onclick="openLightbox(this)">
+                    <img src="作品集/封面设计/视频封面/设计感手串视频封面.jpg" alt="设计感手串视频封面">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">设计感手串视频封面</div>
+                        <div class="portfolio-item-category">封面设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="cover" onclick="openLightbox(this)">
+                    <img src="作品集/封面设计/公众号封面/疫心”艺“意 共抗疫情.jpg" alt="疫心艺意 共抗疫情">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">疫心"艺"意 共抗疫情</div>
+                        <div class="portfolio-item-category">封面设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="cover" onclick="openLightbox(this)">
+                    <img src="作品集/封面设计/视频封面/中考加油视频封面.jpg" alt="中考加油视频封面">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">中考加油视频封面</div>
+                        <div class="portfolio-item-category">封面设计</div>
+                    </div>
+                </div>
+                <!-- 数字插画 -->
+                <div class="portfolio-item" data-category="illustration" onclick="openLightbox(this)">
+                    <img src="作品集/数字插画/520.jpg" alt="520">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">520</div>
+                        <div class="portfolio-item-category">数字插画</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="illustration" onclick="openLightbox(this)">
+                    <img src="作品集/数字插画/窗.jpg" alt="窗">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">窗</div>
+                        <div class="portfolio-item-category">数字插画</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="illustration" onclick="openLightbox(this)">
+                    <img src="作品集/数字插画/姜涩琪.png" alt="姜涩琪">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">姜涩琪</div>
+                        <div class="portfolio-item-category">数字插画</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="illustration" onclick="openLightbox(this)">
+                    <img src="作品集/数字插画/燕.png" alt="燕">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">燕</div>
+                        <div class="portfolio-item-category">数字插画</div>
+                    </div>
+                </div>
+                <!-- 公众号排版 -->
+                <div class="portfolio-item" data-category="layout" onclick="openLightbox(this)">
+                    <img src="作品集/公众号排版/姜涩琪SOLO1.jpg" alt="姜涩琪SOLO1">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">姜涩琪SOLO1</div>
+                        <div class="portfolio-item-category">公众号排版</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="layout" onclick="openLightbox(this)">
+                    <img src="作品集/公众号排版/辽宁之歌.jpg" alt="辽宁之歌">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">辽宁之歌</div>
+                        <div class="portfolio-item-category">公众号排版</div>
+                    </div>
+                </div>
+                <!-- LOGO设计 -->
+                <div class="portfolio-item" data-category="logo" onclick="openLightbox(this)">
+                    <img src="作品集/LOGO设计/对话框.jpg" alt="对话框">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">对话框LOGO</div>
+                        <div class="portfolio-item-category">LOGO设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="logo" onclick="openLightbox(this)">
+                    <img src="作品集/LOGO设计/奖章.jpg" alt="奖章">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">奖章LOGO</div>
+                        <div class="portfolio-item-category">LOGO设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="logo" onclick="openLightbox(this)">
+                    <img src="作品集/LOGO设计/名片logo.jpg" alt="名片logo">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">名片LOGO</div>
+                        <div class="portfolio-item-category">LOGO设计</div>
+                    </div>
+                </div>
+                <!-- 电商设计 -->
+                <div class="portfolio-item" data-category="ecommerce" onclick="openLightbox(this)">
+                    <img src="作品集/电商设计/中式糕点海报.jpg" alt="中式糕点海报">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">中式糕点海报</div>
+                        <div class="portfolio-item-category">电商设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="ecommerce" onclick="openLightbox(this)">
+                    <img src="作品集/电商设计/优惠券.jpg" alt="优惠券">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">优惠券</div>
+                        <div class="portfolio-item-category">电商设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="ecommerce" onclick="openLightbox(this)">
+                    <img src="作品集/电商设计/双12活动封面.jpg" alt="双12活动封面">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">双12活动封面</div>
+                        <div class="portfolio-item-category">电商设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="ecommerce" onclick="openLightbox(this)">
+                    <img src="作品集/电商设计/活动封面.jpg" alt="活动封面">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">活动封面</div>
+                        <div class="portfolio-item-category">电商设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="ecommerce" onclick="openLightbox(this)">
+                    <img src="作品集/电商设计/跨境电商优惠券.jpg" alt="跨境电商优惠券">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">跨境电商优惠券</div>
+                        <div class="portfolio-item-category">电商设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="ecommerce" onclick="openLightbox(this)">
+                    <img src="作品集/电商设计/饮品海报.jpg" alt="饮品海报">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">饮品海报</div>
+                        <div class="portfolio-item-category">电商设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="ecommerce" onclick="openLightbox(this)">
+                    <img src="作品集/电商设计/饮品海报灯箱效果图.jpg" alt="饮品海报灯箱效果图">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">饮品海报灯箱效果图</div>
+                        <div class="portfolio-item-category">电商设计</div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="ecommerce" onclick="openLightbox(this)">
+                    <img src="作品集/电商设计/香水海报.jpg" alt="香水海报">
+                    <div class="portfolio-item-info">
+                        <div class="portfolio-item-title">香水海报</div>
+                        <div class="portfolio-item-category">电商设计</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我 -->
+    <section class="section" id="contact">
+        <div class="contact-container section-content">
+            <div class="contact-info fade-in">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    </div>
+                    <span class="contact-label">电话</span>
+                    <span class="contact-value">181-5884-9813</span>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                    </div>
+                    <span class="contact-label">邮箱</span>
+                    <span class="contact-value">2317953872@qq.com</span>
+                </div>
+            </div>
+            <div class="thank-you" id="thankYou">Thank you</div>
+            <div class="thank-you-sub" id="thankYouSub">for watching</div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="handleLightboxClick(event)">
+        <div class="lightbox-img-container">
+            <div class="lightbox-close" onclick="closeLightbox()">&times;</div>
+            <div class="lightbox-nav lightbox-prev" onclick="navLightbox(-1, event)">&#10094;</div>
+            <img src="" alt="" id="lightboxImg" onclick="toggleZoom(event)">
+            <div class="lightbox-nav lightbox-next" onclick="navLightbox(1, event)">&#10095;</div>
+        </div>
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+        <div class="lightbox-hint" id="lightboxHint">点击图片放大 · 点击左右箭头切换 · 滚轮上下移动</div>
+        <div class="lightbox-zoom-controls">
+            <div class="zoom-btn" onclick="zoomOut(event)" title="缩小">-</div>
+            <div class="zoom-btn" onclick="zoomIn(event)" title="放大">+</div>
+        </div>
+    </div>
+
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.querySelector('.navbar');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 100) {
+                navbar.style.top = '10px';
+                navbar.style.padding = '10px 24px';
+            } else {
+                navbar.style.top = '20px';
+                navbar.style.padding = '12px 28px';
+            }
+            lastScroll = currentScroll;
+        });
+
+        // 滚动到指定区域
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // 导航栏高亮和切换
+        const sections = document.querySelectorAll('.section');
+        const navItems = document.querySelectorAll('.nav-item');
+        const navMotto = document.getElementById('navMotto');
+        const navLinks = document.getElementById('navLinks');
+        const pageTransition = document.getElementById('pageTransition');
+        let lastSection = 'home';
+        let isTransitioning = false;
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 300) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            lastSection = current;
+
+            // 切换导航栏内容
+            if (current === 'home') {
+                navMotto.style.display = 'flex';
+                navLinks.style.display = 'none';
+            } else {
+                navMotto.style.display = 'none';
+                navLinks.style.display = 'flex';
+            }
+
+            // 高亮当前导航项
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('onclick').includes(current)) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // 渐入动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .timeline-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Section 上浮动画
+        const sectionObserverOptions = {
+            threshold: 0.05,
+            rootMargin: '0px 0px -40px 0px'
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, sectionObserverOptions);
+
+        document.querySelectorAll('.section-content').forEach(el => {
+            sectionObserver.observe(el);
+            // 初始化检查：如果元素已经在视口内，直接添加visible类
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                el.classList.add('visible');
+            }
+        });
+
+        // 联系我区域动画
+        const thankYouObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.getElementById('thankYou').classList.add('visible');
+                    document.getElementById('thankYouSub').classList.add('visible');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        thankYouObserver.observe(document.getElementById('contact'));
+
+        // 作品集筛选
+        const filterBtns = document.querySelectorAll('.portfolio-filter');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+                portfolioItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Enhanced Lightbox with zoom and navigation
+        let lightboxImages = [];
+        let lightboxIndex = 0;
+        let isZoomed = false;
+        let zoomLevel = 1;
+        let panX = 0, panY = 0;
+        let isDragging = false;
+        let dragStartX = 0, dragStartY = 0;
+
+        function getVisibleItems() {
+            const items = document.querySelectorAll('.portfolio-item');
+            const visible = [];
+            items.forEach(item => {
+                if (item.style.display !== 'none') {
+                    const img = item.querySelector('img');
+                    if (img) visible.push(img);
+                }
+            });
+            return visible;
+        }
+
+        function openLightbox(element) {
+            lightboxImages = getVisibleItems();
+            const img = element.querySelector('img');
+            lightboxIndex = lightboxImages.indexOf(img);
+            if (lightboxIndex === -1) lightboxIndex = 0;
+            isZoomed = false;
+            zoomLevel = 1;
+            panX = 0; panY = 0;
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            // Show hint briefly
+            const hint = document.getElementById('lightboxHint');
+            hint.classList.remove('hidden');
+            setTimeout(() => hint.classList.add('hidden'), 3000);
+        }
+
+        function updateLightbox() {
+            const lightboxImg = document.getElementById('lightboxImg');
+            lightboxImg.src = lightboxImages[lightboxIndex].src;
+            lightboxImg.alt = lightboxImages[lightboxIndex].alt;
+            lightboxImg.classList.remove('zoomed');
+            lightboxImg.style.transform = '';
+            lightboxImg.style.cursor = 'zoom-in';
+            isZoomed = false;
+            zoomLevel = 1;
+            panX = 0; panY = 0;
+            // Update counter
+            const counter = document.getElementById('lightboxCounter');
+            counter.textContent = (lightboxIndex + 1) + ' / ' + lightboxImages.length;
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+            isZoomed = false;
+            zoomLevel = 1;
+        }
+
+        function navLightbox(dir, e) {
+            e.stopPropagation();
+            lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
+            updateLightbox();
+        }
+
+        function zoomIn(e) {
+            if (e) e.stopPropagation();
+            const img = document.getElementById('lightboxImg');
+            if (!isZoomed) {
+                zoomLevel = 2;
+                isZoomed = true;
+                img.classList.add('zoomed');
+                img.style.cursor = 'zoom-out';
+                panX = 0; panY = 0;
+            } else {
+                zoomLevel = Math.min(zoomLevel + 0.5, 5);
+            }
+            img.style.transform = `scale(${zoomLevel}) translate(${panX/zoomLevel}px, ${panY/zoomLevel}px)`;
+        }
+
+        function zoomOut(e) {
+            if (e) e.stopPropagation();
+            const img = document.getElementById('lightboxImg');
+            zoomLevel = Math.max(zoomLevel - 0.5, 1);
+            if (zoomLevel === 1) {
+                isZoomed = false;
+                img.classList.remove('zoomed');
+                img.style.transform = '';
+                img.style.cursor = 'zoom-in';
+                panX = 0; panY = 0;
+            } else {
+                img.style.transform = `scale(${zoomLevel}) translate(${panX/zoomLevel}px, ${panY/zoomLevel}px)`;
+            }
+        }
+
+        function toggleZoom(e) {
+            e.stopPropagation();
+            const img = document.getElementById('lightboxImg');
+            if (!isZoomed) {
+                zoomLevel = 2;
+                isZoomed = true;
+                img.classList.add('zoomed');
+                img.style.cursor = 'zoom-out';
+                const rect = img.getBoundingClientRect();
+                const clickX = e.clientX - rect.left - rect.width / 2;
+                const clickY = e.clientY - rect.top - rect.height / 2;
+                panX = -clickX;
+                panY = -clickY;
+                img.style.transform = `scale(${zoomLevel}) translate(${panX/zoomLevel}px, ${panY/zoomLevel}px)`;
+            } else {
+                zoomOut();
+            }
+        }
+
+        function handleLightboxClick(e) {
+            if (e.target === document.getElementById('lightbox') ||
+                e.target.classList.contains('lightbox-img-container')) {
+                closeLightbox();
+            }
+        }
+
+        // Wheel scroll for panning zoomed image
+        document.getElementById('lightbox').addEventListener('wheel', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('active')) return;
+            if (!isZoomed) return;
+            e.preventDefault();
+            panY -= e.deltaY * 0.5;
+            const img = document.getElementById('lightboxImg');
+            img.style.transform = `scale(${zoomLevel}) translate(${panX/zoomLevel}px, ${panY/zoomLevel}px)`;
+        }, { passive: false });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                return;
+            }
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navLightbox(-1, e);
+            if (e.key === 'ArrowRight') navLightbox(1, e);
+            if (e.key === '+' || e.key === '=') zoomIn(e);
+            if (e.key === '-') zoomOut(e);
+        });
+
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            // 导航栏入场
+            setTimeout(() => {
+                document.getElementById('navbar').classList.add('loaded');
+            }, 100);
+
+            // 首页元素依次入场
+            setTimeout(() => {
+                document.getElementById('homeHello').classList.add('visible');
+            }, 300);
+
+            setTimeout(() => {
+                document.getElementById('homeTitle').classList.add('visible');
+            }, 500);
+
+            setTimeout(() => {
+                document.getElementById('homeContent').classList.add('visible');
+            }, 900);
+
+            setTimeout(() => {
+                document.getElementById('homeIcons').classList.add('visible');
+            }, 1100);
+
+            setTimeout(() => {
+                document.getElementById('decoStar1').classList.add('visible');
+            }, 1300);
+
+            setTimeout(() => {
+                document.getElementById('decoCircle').classList.add('visible');
+            }, 1400);
+
+            setTimeout(() => {
+                document.getElementById('decoTriangle').classList.add('visible');
+            }, 1500);
+
+            setTimeout(() => {
+                document.getElementById('decoStar2').classList.add('visible');
+            }, 1600);
+        });
+    </script>
+</body>
+</html>
